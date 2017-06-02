@@ -21,10 +21,10 @@ def move():
 	speed = float(speed) / 100
 	rotation = float(rotation)
 
-	if(rotation > 0):
+	if(rotation > 1):
 	  speed_a = speed;
 	  speed_b = -speed * ((100 - abs(rotation)) / 100)
-	else:
+	elif(rotation < -1):
 	  speed_b = speed;
 	  speed_a = -speed * ((100 - abs(rotation)) / 100)
 
@@ -32,12 +32,12 @@ def move():
 	off_pin = (17, 22) if on_pin[0] == 18 else (18, 23)
 
 	print((on_pin, off_pin))
-	# os.system('echo "4=1" > /dev/pi-blaster')
-	# os.system(f'echo "{on_pin[0]}={abs(speed_a)}" > /dev/pi-blaster')
-	# os.system(f'echo "{off_pin[0]}=0" > /dev/pi-blaster')
-	#
-	# os.system(f'echo "{on_pin[1]}={abs(speed_b)}" > /dev/pi-blaster')
-	# os.system(f'echo "{off_pin[1]}=0" > /dev/pi-blaster')
+	os.system('echo "4=1" > /dev/pi-blaster')
+	os.system(f'echo "{on_pin[0]}={abs(speed_a)}" > /dev/pi-blaster')
+	os.system(f'echo "{off_pin[0]}=0" > /dev/pi-blaster')
+	
+	os.system(f'echo "{on_pin[1]}={abs(speed_b)}" > /dev/pi-blaster')
+	os.system(f'echo "{off_pin[1]}=0" > /dev/pi-blaster')
 
 	return Response(json.dumps((speed_a, speed_b)), status=200, mimetype="application/json")
 
