@@ -29,15 +29,24 @@ def move():
 	  speed_b = speed;
 	  speed_a = -speed * abs(rotation) / 100
 
-	on_pin = (18, 23) if speed > 0 else (17, 22)
-	off_pin = (17, 22) if on_pin[0] == 18 else (18, 23)
+	motor_a = motor_b = []
+
+	if speed_a > 0:
+		motor_a = [18, 17]
+	else:
+		motor_a = [17, 18]
+	if speed_b > 0:
+		motor_b = [23, 22]
+	else:
+		motor_b = [22, 23]
+
 	print((on_pin, off_pin))
 	os.system('echo "4=1" > /dev/pi-blaster')
-	os.system(f'echo "{on_pin[0]}={abs(speed_a)}" > /dev/pi-blaster')
-	os.system(f'echo "{off_pin[0]}=0" > /dev/pi-blaster')
-	
-	os.system(f'echo "{on_pin[1]}={abs(speed_b)}" > /dev/pi-blaster')
-	os.system(f'echo "{off_pin[1]}=0" > /dev/pi-blaster')
+	os.system(f'echo "{motor_a[0]}={abs(speed_a)}" > /dev/pi-blaster')
+	os.system(f'echo "{motor_a[1]}=0" > /dev/pi-blaster')
+
+	os.system(f'echo "{motor_b[0]}={abs(speed_b)}" > /dev/pi-blaster')
+	os.system(f'echo "{motor_b[1]}=0" > /dev/pi-blaster')
 
 	return Response(json.dumps((speed_a, speed_b)), status=200, mimetype="application/json")
 
